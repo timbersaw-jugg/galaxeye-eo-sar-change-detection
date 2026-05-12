@@ -253,7 +253,7 @@ Evaluation automatically generates:
 HuggingFace model link:
 
 ```text
-[TBD]
+https://github.com/juggtimber/galaxeye-eo-sar-change-detection
 ```
 
 Place downloaded weights at:
