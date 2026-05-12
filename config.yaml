@@ -1,0 +1,65 @@
+project:
+  name: galaxeye_change_detection
+  seed: 42
+
+data:
+  # root: "/Users/anil/Projects/galaxeye/data" # ✅ your path
+  root: "data"
+  use_cache: true
+  cache_dir: "data/cache_256_s256" # ✅ your cache path
+  crop_size: 256
+  in_channels: 5 # 3 EO + 1 SAR_CLAHE + 1 SAR_LOG
+  num_workers: 0
+  pin_memory: False
+  oversample_factor: 2 # change files oversampled 4x
+  oversample_scan: 300 # files scanned for oversampling index
+  min_valid_ratio: 0.4 # min valid pixels in crop
+  max_crop_tries: 30
+  clahe_clip_limit: 2.0
+  clahe_tile_size: 8
+
+model:
+  backbone: efficientnet_b0 # resnet18 | convnext_tiny | mobilenet_v2
+  pretrained: true
+  in_channels: 5 # must match data.in_channels
+
+loss:
+  bce_weight: 0.4
+  dice_weight: 0.4
+  focal_weight: 0.2
+  pos_weight: 25 # from EDA: 1 change per 45 px in val
+  focal_alpha: 0.25
+  focal_gamma: 2.0
+
+optimizer:
+  lr: 0.00005 # from hyperparameter search
+  weight_decay: 0.01
+  grad_clip: 1.0
+
+scheduler:
+  warmup_epochs: 3
+  eta_min: 0.000001
+
+training:
+  epochs: 20
+  batch_size: 8
+  patience: 6
+  threshold: 0.30 # tuned on val set
+  save_dir: "checkpoints"
+  # actual save path built as: checkpoints/{backbone}/best_model.pth
+
+evaluation:
+  threshold: 0.30
+  batch_size: 4
+
+gradcam:
+  method: gradcam_pp # gradcam_pp | layercam | eigencam
+  target_layer: dec1 # decoder layer for hook
+
+# Output directories — all relative to project root
+# Created automatically by train.py and eval.py
+outputs:
+  checkpoints: "checkpoints" # checkpoints/{backbone}/best_model.pth
+  logs: "logs" # logs/{backbone}/training_history.json
+  results: "results" # results/{backbone}/metrics_test.json
+  gradcam: "results/gradcam" # results/gradcam/{backbone}/*.png

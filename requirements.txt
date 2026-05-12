@@ -1,0 +1,31 @@
+# GalaxEye EO-SAR Change Detection
+# Install with: uv pip install -r requirements.txt
+# Or:           pip install -r requirements.txt
+
+# Core ML
+torch==2.3.1
+torchvision==0.18.1
+
+# Geospatial
+rasterio==1.3.10
+# gdal==3.8.4              # optional, needed only if rasterio fails on some systems
+
+# Image processing
+opencv-python==4.10.0.84
+albumentations==1.4.10
+Pillow==10.4.0
+
+# Data & numerics
+numpy==1.26.4
+scipy==1.13.1
+
+# Visualization
+matplotlib==3.9.1
+seaborn==0.13.2
+
+# Config
+pyyaml==6.0.1
+
+# Utilities
+tqdm==4.66.4
+pathlib2==2.3.7          # backcompat only, stdlib pathlib preferred
