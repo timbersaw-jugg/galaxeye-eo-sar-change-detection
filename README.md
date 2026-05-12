@@ -259,7 +259,7 @@ https://github.com/juggtimber/galaxeye-eo-sar-change-detection
 Place downloaded weights at:
 
 ```text
-checkpoints/efficientnet_b0/best_model.pth
+hf_model/efficientnet_b0/best_model.pth
 ```
 
 ---
